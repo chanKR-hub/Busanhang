@@ -30,6 +30,34 @@ void train_ex(int len) {
 	}
 }
 
+void train_in(int len) {
+	for (int i = 0; i < len; i++) {
+		if (i == 0) {
+			printf("#");
+			continue;
+		}
+		if (i == len - 6) {
+			printf("C");
+			continue;
+		}
+		if (i == len - 3) {
+			printf("Z");
+			continue;
+		}
+		if (i == len - 2) {
+			printf("M");
+			continue;
+		}
+		if (i == len - 1) {
+			printf("#\n");
+			break;
+		}
+		printf(" ");
+	}
+}
+
+
+
 
 int main() {
 	intro();
@@ -58,33 +86,10 @@ int main() {
 	system("cls");
 
 
-
+	///초기 상태
 	train_ex(len);
-	for (int i = 0; i < len; i++) {
-		if(i == 0) {
-			printf("#");
-			continue;
-		}
-		if (i == len - 6) {
-			printf("C");
-			continue;
-		}
-		if (i == len - 3) {
-			printf("Z");
-			continue;
-		}
-		if (i == len - 2) {
-			printf("M");
-			continue;
-		}
-		if (i == len - 1) {
-			printf("#\n");
-			break;
-		}
-		printf(" ");
-	}
+	train_in(len);
 	train_ex(len);
-
 
 
 
