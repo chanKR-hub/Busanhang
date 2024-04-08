@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
+#include <time.h>
 
 #define LEN_MIN 15
 #define LEN_MAX 90
@@ -8,7 +9,7 @@
 #define PROB_MAX 90
 
 
-void intro() {
+void intro_outro() {
 	printf(" ____                                  _   _                        \n");
 	printf("| __ )   _   _   ___    __ _   _ __   | | | |   ___   _ __     __ _ \n");
 	printf("|  _ \\  | | | | / __|  / _` | | '_ \\  | |_| |  / _ \\ | '_ \\   / _` |\n");
@@ -16,7 +17,7 @@ void intro() {
 	printf("|____/   \\__,_| |___/  \\__,_| |_| |_| |_| |_|  \\___| |_| |_|  \\__, |\n");
 	printf("                                                              |___/ \n");
 
-	Sleep(2000);
+	Sleep(3000);
 	system("cls");
 }
 
@@ -60,8 +61,7 @@ void train_in(int len) {
 
 
 int main() {
-	intro();
-
+	intro_outro();
 	int len; // 열차 길이
 	printf("train lengh(%d ~ %d)>>> ", LEN_MIN, LEN_MAX);
 	scanf_s("%d", &len);
@@ -90,15 +90,19 @@ int main() {
 	train_ex(len);
 	train_in(len);
 	train_ex(len);
+	printf("\n\n");
 	Sleep(3000);
-	system("cls");
-	Sleep(3000);
-
 
 	int zombie = len - 3;
 	int civil = len - 6;
-
+	
 	while (1) {
+		srand((unsigned int)time(NULL)); // 현재시간을 기준으로 계속 난수 생성
+		int r = rand() % 100 + 1;  // 1 ~ 100 까지의 난수 생성
+		if (r > p) { // 난수가 P 보다 크면 이동, 즉 (1-p)의 확률로 이동
+			civil--;
+		}
+
 		train_ex(len);
 		for (int i = 0; i < len; i++) {
 			if (i == 0) {
@@ -108,6 +112,7 @@ int main() {
    			if (i == civil) {
 				printf("C");
 				continue;
+				
 			}
 			if (i == zombie) {
 				printf("Z");
@@ -125,6 +130,12 @@ int main() {
 			printf(" ");
 		}
 		train_ex(len);
+		printf("\n");
+
+
+
+
+		printf("\n\n");
 
 
 
@@ -139,7 +150,7 @@ int main() {
 		Sleep(4000);
 	}
 
-
+	intro_outro();
 
 
 	return 0;
