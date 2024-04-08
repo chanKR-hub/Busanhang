@@ -90,7 +90,54 @@ int main() {
 	train_ex(len);
 	train_in(len);
 	train_ex(len);
+	Sleep(3000);
+	system("cls");
+	Sleep(3000);
 
+
+	int zombie = len - 3;
+	int civil = len - 6;
+
+	while (1) {
+		train_ex(len);
+		for (int i = 0; i < len; i++) {
+			if (i == 0) {
+				printf("#");
+				continue;
+			}
+   			if (i == civil) {
+				printf("C");
+				continue;
+			}
+			if (i == zombie) {
+				printf("Z");
+				zombie--;
+				continue;
+			}
+			if (i == len - 2) {
+				printf("M");
+				continue;
+			}
+			if (i == len - 1) {
+				printf("#\n");
+				break;
+			}
+			printf(" ");
+		}
+		train_ex(len);
+
+
+
+
+
+
+
+
+
+
+
+		Sleep(4000);
+	}
 
 
 
