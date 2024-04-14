@@ -117,7 +117,9 @@ int main() {
 			civil--;
 		}
 		else {
-			zombie--;
+			if (phase % 2 != 0) {
+				zombie--;
+			}
 		}
 
 		train_ex(len);
@@ -153,16 +155,45 @@ int main() {
 		}
 		train_ex(len);
 		printf("\n");
+
+		if (phase % 2 == 0) {
+			if (r > p) {
+				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
+				printf("Zombie : Stay %d (can not move)\n", zombie + 1);
+			}
+			else {
+				printf("Citizen : Stay %d\n", civil + 1);
+				printf("Zombie : Stay %d (can not move)\n", zombie + 1);
+			}
+		}
+		else {
+			if (r > p) {
+				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
+				printf("Zombie : Stay %d \n", zombie + 1);
+			}
+			else {
+				printf("Citizen : Stay %d\n", civil + 1);
+				printf("Zombie : %d -> %d\n", zombie + 2, zombie + 1);
+			}
+		}
+		/*
 		if (r > p) { 
-			printf("Citizen : %d -> %d\n", civil+2, civil+1);
-			printf("Zombie : Stay %d\n", zombie + 1);
+			if (phase % 2 == 0) {
+				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
+				printf("Zombie : Stay %d (can not move)\n", zombie + 1);
+			}
+			else {
+				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
+				printf("Zombie : Stay %d\n", zombie + 1);
+			}
 		}
 		else {
 			printf("Citizen : Stay %d\n", civil+1);
 			printf("Zombie : %d -> %d\n", zombie + 2, zombie + 1);
 		}
+		*/
 
-		if (civil == 0) {
+		if (civil == 1) {
 			printf("\nSUCCESS!\n");
 			printf("citizen(s) escaped to the next train\n");
 			break;
@@ -173,8 +204,6 @@ int main() {
 			break;
 
 		}
-
-
 
 		printf("\n\n");
 		phase++;
