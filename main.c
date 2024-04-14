@@ -9,7 +9,7 @@
 #define PROB_MAX 90
 
 
-void intro_outro() {
+void intro() {
 	printf(" ____                                  _   _                        \n");
 	printf("| __ )   _   _   ___    __ _   _ __   | | | |   ___   _ __     __ _ \n");
 	printf("|  _ \\  | | | | / __|  / _` | | '_ \\  | |_| |  / _ \\ | '_ \\   / _` |\n");
@@ -20,6 +20,18 @@ void intro_outro() {
 	Sleep(3000);
 	system("cls");
 }
+
+void outro() {
+	printf(" ____                                  _   _                        \n");
+	printf("| __ )   _   _   ___    __ _   _ __   | | | |   ___   _ __     __ _ \n");
+	printf("|  _ \\  | | | | / __|  / _` | | '_ \\  | |_| |  / _ \\ | '_ \\   / _` |\n");
+	printf("| |_) | | |_| | \\__ \\ | (_| | | | | | |  _  | |  __/ | | | | | (_| |\n");
+	printf("|____/   \\__,_| |___/  \\__,_| |_| |_| |_| |_|  \\___| |_| |_|  \\__, |\n");
+	printf("                                                              |___/ \n");
+
+
+}
+
 
 void train_ex(int len) {
 	for (int i = 0; i < len; i++) {
@@ -61,7 +73,7 @@ void train_in(int len) {
 
 
 int main() {
-	intro_outro();
+	intro();
 	int len; // 열차 길이
 	printf("train lengh(%d ~ %d)>>> ", LEN_MIN, LEN_MAX);
 	scanf_s("%d", &len);
@@ -93,14 +105,19 @@ int main() {
 	printf("\n\n");
 	Sleep(3000);
 
+	
 	int zombie = len - 3;
 	int civil = len - 6;
 	
+	int phase = 1; // 짝수 횟수에 좀비가 멈추기 위한 장면 수 
 	while (1) {
 		srand((unsigned int)time(NULL)); // 현재시간을 기준으로 계속 난수 생성
 		int r = rand() % 100 + 1;  // 1 ~ 100 까지의 난수 생성
 		if (r > p) { // 난수가 P 보다 크면 이동, 즉 (1-p)의 확률로 이동
 			civil--;
+		}
+		else {
+			zombie--;
 		}
 
 		train_ex(len);
@@ -115,9 +132,14 @@ int main() {
 				
 			}
 			if (i == zombie) {
-				printf("Z");
-				zombie--;
-				continue;
+				if (phase % 2 == 0) {
+					printf("Z");
+					continue;
+				}
+				else {
+					printf("Z");
+					continue;
+				}
 			}
 			if (i == len - 2) {
 				printf("M");
@@ -131,26 +153,35 @@ int main() {
 		}
 		train_ex(len);
 		printf("\n");
+		if (r > p) { 
+			printf("Citizen : %d -> %d\n", civil+2, civil+1);
+			printf("Zombie : Stay %d\n", zombie + 1);
+		}
+		else {
+			printf("Citizen : Stay %d\n", civil+1);
+			printf("Zombie : %d -> %d\n", zombie + 2, zombie + 1);
+		}
 
+		if (civil == 0) {
+			printf("\nSUCCESS!\n");
+			printf("citizen(s) escaped to the next train\n");
+			break;
+		}
+		if (zombie - civil == 1) {
+			printf("\nGAME OVER!\n");
+			printf("Citizen(s) has(have) been attacked by a zombie\n");
+			break;
+
+		}
 
 
 
 		printf("\n\n");
-
-
-
-
-
-
-
-
-
-
-
+		phase++;
 		Sleep(4000);
 	}
 
-	intro_outro();
+	outro();
 
 
 	return 0;
