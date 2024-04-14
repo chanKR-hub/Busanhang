@@ -158,22 +158,22 @@ int main() {
 
 		if (phase % 2 == 0) {
 			if (r > p) {
-				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
-				printf("Zombie : Stay %d (can not move)\n", zombie + 1);
+				printf("Citizen : %d -> %d\n", civil + 1, civil );
+				printf("Zombie : Stay %d (can not move)\n", zombie );
 			}
 			else {
-				printf("Citizen : Stay %d\n", civil + 1);
-				printf("Zombie : Stay %d (can not move)\n", zombie + 1);
+				printf("Citizen : Stay %d\n", civil );
+				printf("Zombie : Stay %d (can not move)\n", zombie );
 			}
 		}
 		else {
 			if (r > p) {
-				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
-				printf("Zombie : Stay %d \n", zombie + 1);
+				printf("Citizen : %d -> %d\n", civil + 1, civil );
+				printf("Zombie : Stay %d \n", zombie );
 			}
 			else {
-				printf("Citizen : Stay %d\n", civil + 1);
-				printf("Zombie : %d -> %d\n", zombie + 2, zombie + 1);
+				printf("Citizen : Stay %d\n", civil );
+				printf("Zombie : %d -> %d\n", zombie + 1, zombie );
 			}
 		}
 		/*
