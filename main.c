@@ -2,12 +2,27 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <time.h>
-
-#define LEN_MIN 15
-#define LEN_MAX 90
-#define PROB_MIN 10
+// 파라미터
+#define LEN_MIN 15 // 기차 길이
+#define LEN_MAX 50
+#define STM_MIN 0 // 마동석 체력
+#define STM_MAX 5
+#define PROB_MIN 10 // 확률
 #define PROB_MAX 90
+#define AGGRO_MIN 0 // 어그로 범위
+#define AGGRO_MAX 5
 
+// 마동석 이동 방향
+#define MOVE_LEFT 1
+#define MOVE_STAY 0
+// 좀비의 공격 대상
+#define ATK_NONE 0
+#define ATK_CITIZEN 1
+#define ATK_DONGSEOK 2
+// 마동석 행동
+#define ACTION_REST 0
+#define ACTION_PROVOKE 1
+#define ACTION_PULL 2
 
 void intro() {
 	printf(" ____                                  _   _                        \n");
@@ -73,28 +88,30 @@ void train_in(int len) {
 
 
 int main() {
+	// 열차길이, 마동석 체력, 확률을 입력받을 때, 범위에 맍는 값을
+	// 입력받기 위해서 while문을 쓸 것이다. 그런데 while문의 조건을 발동시키려면
+	// 변수들(길이, 체력, 확률)이 모두 범위 바깥의 값으로 초기화 되어야 하므로
+	// 처음에 모두 -1로 초기화 하였다. 세 값은 무조건 양수여야 되기 때문이다.
+	int len = -1; // 열차 길이
+	int ma_stm = -1; // 마동석 체력
+	int p = -1; // 확률
+
 	intro();
-	int len; // 열차 길이
-	printf("train lengh(%d ~ %d)>>> ", LEN_MIN, LEN_MAX);
-	scanf_s("%d", &len);
-	if (len < LEN_MIN || LEN_MAX < len) {
-		printf("\n\n길이를 잘못 입력하셨습니다.\n\n");
-		printf("\n\n영화를 종료합니다\n\n");
-
-		return 0;
+	while (!(LEN_MIN <= len && len <= LEN_MAX)) { // 열차 길이 입력
+		printf("train lengh(%d ~ %d)>>> ", LEN_MIN, LEN_MAX);
+		scanf_s("%d", &len);
 	}
 
-
-	int p; // 확률
-	printf("percentile probability 'p'(%d ~ %d)>>> ", PROB_MIN, PROB_MAX);
-	scanf_s("%d", &p);
-	if (p < PROB_MIN || PROB_MAX < p) {
-		printf("\n\n확률을 잘못 입력하셨습니다.\n\n");
-		printf("\n\n영화를 종료합니다\n\n");
-
-		return 0;
+	while (!(STM_MIN <= ma_stm && ma_stm <= STM_MAX)) { // 마동석 체력 입력
+		printf("madongseok stamina(%d ~ %d)>>> ", STM_MIN, STM_MAX);
+		scanf_s("%d", &ma_stm);
 	}
-	
+
+	while (!(PROB_MIN <= p && p <= PROB_MAX)) { // 확률 입력
+		printf("percentile probability 'p'(%d ~ %d)>>> ", PROB_MIN, PROB_MAX);
+		scanf_s("%d", &p);
+	}
+
 	system("cls");
 
 
@@ -176,22 +193,6 @@ int main() {
 				printf("Zombie : %d -> %d\n", zombie + 1, zombie );
 			}
 		}
-		/*
-		if (r > p) { 
-			if (phase % 2 == 0) {
-				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
-				printf("Zombie : Stay %d (can not move)\n", zombie + 1);
-			}
-			else {
-				printf("Citizen : %d -> %d\n", civil + 2, civil + 1);
-				printf("Zombie : Stay %d\n", zombie + 1);
-			}
-		}
-		else {
-			printf("Citizen : Stay %d\n", civil+1);
-			printf("Zombie : %d -> %d\n", zombie + 2, zombie + 1);
-		}
-		*/
 
 		if (civil == 1) {
 			printf("\nSUCCESS!\n");
