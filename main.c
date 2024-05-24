@@ -24,7 +24,7 @@
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
 
-void intro() {
+void intro() { // 인트로 아스키 아트를 출력하는 intro함수
 	printf(" ____                                  _   _                        \n");
 	printf("| __ )   _   _   ___    __ _   _ __   | | | |   ___   _ __     __ _ \n");
 	printf("|  _ \\  | | | | / __|  / _` | | '_ \\  | |_| |  / _ \\ | '_ \\   / _` |\n");
@@ -36,7 +36,7 @@ void intro() {
 	system("cls");
 }
 
-void outro() {
+void outro() { // 아웃트로 아스키 아트를 출력하는 intro함수
 	printf(" ____                                  _   _                        \n");
 	printf("| __ )   _   _   ___    __ _   _ __   | | | |   ___   _ __     __ _ \n");
 	printf("|  _ \\  | | | | / __|  / _` | | '_ \\  | |_| |  / _ \\ | '_ \\   / _` |\n");
@@ -48,7 +48,7 @@ void outro() {
 }
 
 
-void train_ex(int len) {
+void train_ex(int len) { // 기차 외벽을 출력하는 train_ex 함수
 	for (int i = 0; i < len; i++) {
 		if (i == len - 1) {
 			printf("#\n");
@@ -58,7 +58,7 @@ void train_ex(int len) {
 	}
 }
 
-void train_in(int len) {
+void train_init(int len) { // 초기 열차의 내부를 출력하는 train_init 함수
 	for (int i = 0; i < len; i++) {
 		if (i == 0) {
 			printf("#");
@@ -83,6 +83,41 @@ void train_in(int len) {
 		printf(" ");
 	}
 }
+
+train_inter(int len, int civil, int zombie, int scene) { // 1턴 부터 끝날떄 까지 기차 내부를 출력해주는 train_inter함수
+	for (int i = 0; i < len; i++) {
+		if (i == 0) {
+			printf("#");
+			continue;
+		}
+		if (i == civil) {
+			printf("C");
+			continue;
+
+		}
+		if (i == zombie) {
+			if (scene % 2 == 0) {
+				printf("Z");
+				continue;
+			}
+			else {
+				printf("Z");
+				continue;
+			}
+		}
+		if (i == len - 2) {
+			printf("M");
+			continue;
+		}
+		if (i == len - 1) {
+			printf("#\n");
+			break;
+		}
+		printf(" ");
+	}
+}
+
+
 
 
 
@@ -117,7 +152,7 @@ int main() {
 
 	///초기 상태
 	train_ex(len);
-	train_in(len);
+	train_init(len);
 	train_ex(len);
 	printf("\n\n");
 	Sleep(3000);
@@ -126,7 +161,7 @@ int main() {
 	int zombie = len - 3;
 	int civil = len - 6;
 	
-	int phase = 1; // 짝수 횟수에 좀비가 멈추기 위한 장면 수 
+	int scene = 1; // 짝수 횟수에 좀비가 멈추기 위한 장면 수 
 	while (1) {
 		srand((unsigned int)time(NULL)); // 현재시간을 기준으로 계속 난수 생성
 		int r = rand() % 100 + 1;  // 1 ~ 100 까지의 난수 생성
@@ -134,46 +169,17 @@ int main() {
 			civil--;
 		}
 		else {
-			if (phase % 2 != 0) {
+			if (scene % 2 != 0) {
 				zombie--;
 			}
 		}
 
 		train_ex(len);
-		for (int i = 0; i < len; i++) {
-			if (i == 0) {
-				printf("#");
-				continue;
-			}
-   			if (i == civil) {
-				printf("C");
-				continue;
-				
-			}
-			if (i == zombie) {
-				if (phase % 2 == 0) {
-					printf("Z");
-					continue;
-				}
-				else {
-					printf("Z");
-					continue;
-				}
-			}
-			if (i == len - 2) {
-				printf("M");
-				continue;
-			}
-			if (i == len - 1) {
-				printf("#\n");
-				break;
-			}
-			printf(" ");
-		}
+		train_inter(len, civil, zombie, scene);
 		train_ex(len);
 		printf("\n");
 
-		if (phase % 2 == 0) {
+		if (scene % 2 == 0) {
 			if (r > p) {
 				printf("Citizen : %d -> %d\n", civil + 1, civil );
 				printf("Zombie : Stay %d (can not move)\n", zombie );
@@ -207,7 +213,7 @@ int main() {
 		}
 
 		printf("\n\n");
-		phase++;
+		scene++;
 		Sleep(4000);
 	}
 
