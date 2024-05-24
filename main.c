@@ -84,7 +84,7 @@ void train_init(int len) { // 초기 열차의 내부를 출력하는 train_init 함수
 	}
 }
 
-train_inter(int len, int civil, int zombie, int scene) { // 1턴 부터 끝날떄 까지 기차 내부를 출력해주는 train_inter함수
+train_inter(int len, int civil, int zombie, int scene, int madong) { // 1턴 부터 끝날떄 까지 기차 내부를 출력해주는 train_inter함수
 	for (int i = 0; i < len; i++) {
 		if (i == 0) {
 			printf("#");
@@ -105,7 +105,7 @@ train_inter(int len, int civil, int zombie, int scene) { // 1턴 부터 끝날떄 까지
 				continue;
 			}
 		}
-		if (i == len - 2) {
+		if (i == madong) {
 			printf("M");
 			continue;
 		}
@@ -160,9 +160,12 @@ int main() {
 	
 	int zombie = len - 3;
 	int civil = len - 6;
+	int madong = len - 2;
 	
 	int scene = 1; // 짝수 횟수에 좀비가 멈추기 위한 장면 수 
 	while (1) {
+		int madong_move = -1; // 마동석의 이동에 쓰일 변수
+
 		srand((unsigned int)time(NULL)); // 현재시간을 기준으로 계속 난수 생성
 		int r = rand() % 100 + 1;  // 1 ~ 100 까지의 난수 생성
 		if (r > p) { // 난수가 P 보다 크면 이동, 즉 (1-p)의 확률로 이동
@@ -175,10 +178,11 @@ int main() {
 		}
 
 		train_ex(len);
-		train_inter(len, civil, zombie, scene);
+		train_inter(len, civil, zombie, scene, madong);
 		train_ex(len);
 		printf("\n");
 
+		// 시민과 좀비의 이동 결과
 		if (scene % 2 == 0) {
 			if (r > p) {
 				printf("Citizen : %d -> %d\n", civil + 1, civil );
@@ -200,6 +204,19 @@ int main() {
 			}
 		}
 
+		// 마동석 이동 입력 및 결과
+		while (!(madong_move == 0 || madong_move == 1)) {
+			printf("madongseock move(0 : stay, 1 : move) >> ");
+			scanf_s("%d", &madong_move);
+		}
+		
+		if (madong_move == 0) {
+
+		}
+
+
+
+		// 시민이 탈출 성공하거나 좀비한테 공격당했을 때의 출력창
 		if (civil == 1) {
 			printf("\nSUCCESS!\n");
 			printf("citizen(s) escaped to the next train\n");
