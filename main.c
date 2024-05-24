@@ -204,14 +204,19 @@ int main() {
 			}
 		}
 
+		printf("\n");
+
 		// 마동석 이동 입력 및 결과
 		while (!(madong_move == 0 || madong_move == 1)) {
 			printf("madongseock move(0 : stay, 1 : move) >> ");
 			scanf_s("%d", &madong_move);
 		}
 		
-		if (madong_move == 0) {
-
+		if (madong_move == 1) {
+			printf("madong move");
+		}
+		else if (madong_move == 0) {
+			printf("modong doesnt move");
 		}
 
 
@@ -231,7 +236,6 @@ int main() {
 
 		printf("\n\n");
 		scene++;
-		Sleep(4000);
 	}
 
 	outro();
