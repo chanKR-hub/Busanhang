@@ -225,11 +225,35 @@ int main() {
 		}
 		printf("\n");
 
+
+
 		if (madong_move == MOVE_LEFT) {
-			printf("madong move");
+			madong--;
+			aggro_madon++;
+			if (aggro_madon > 5) {
+				aggro_madon = 5;
+			}
+			train_ex(len);
+			train_inter(len, civil, zombie, scene, madong);
+			train_ex(len);
+			printf("\n");
+
+			printf("madongseok: %d --> %d (aggro : %d, stamina : %d)", madong+1, madong, aggro_madon, ma_stm);
+			printf("\n\n\n");
 		}
 		else if (madong_move == MOVE_STAY) {
-			printf("modong doesnt move");
+			aggro_madon--;
+			if (aggro_madon < 0) {
+				aggro_madon = 0;
+			}
+			train_ex(len);
+			train_inter(len, civil, zombie, scene, madong);
+			train_ex(len);
+			printf("\n");
+
+			printf("madongseok: stay %d (aggro : %d, stamina : %d)", madong, aggro_madon, ma_stm);
+			printf("\n\n\n");
+
 		}
 
 
