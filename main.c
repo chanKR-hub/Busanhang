@@ -32,8 +32,7 @@ void intro() { // 인트로 아스키 아트를 출력하는 intro함수
 	printf("|____/   \\__,_| |___/  \\__,_| |_| |_| |_| |_|  \\___| |_| |_|  \\__, |\n");
 	printf("                                                              |___/ \n");
 
-	Sleep(3000);
-	system("cls");
+	printf("\n\n");
 }
 
 void outro() { // 아웃트로 아스키 아트를 출력하는 intro함수
@@ -181,11 +180,23 @@ int main() {
 		}
 		else {
 			if (scene % 2 != 0) {
-				zombie--;  // 어그로가 높은 쪽을 선택해서 가려면 이 부분을 수정해야 한다. ------------------------------------------ 아마 이중 조건문으로 작성해야 될 듯 
-				aggro_civil--;
-				if (aggro_civil < 0) {
-					aggro_civil = 0;
+				if ((madong - zombie) > 1 &&
+					
+					(aggro_madon > aggro_civil)) {
+					zombie++;
+					aggro_civil--;
+					if (aggro_civil < 0) {
+						aggro_civil = 0;
+					}
 				}
+				else {
+					zombie--;
+					aggro_civil--;
+					if (aggro_civil < 0) {
+						aggro_civil = 0;
+					}
+				}
+
 			}
 		}
 
