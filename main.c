@@ -266,7 +266,25 @@ int main() {
 			printf("\n");
 
 			printf("madongseok: %d --> %d (aggro : %d, stamina : %d)", madong+1, madong, aggro_madon, ma_stm);
-			printf("\n\n\n");
+			printf("madongseok: stay %d (aggro : %d, stamina : %d)\n", madong, aggro_madon, ma_stm);
+			printf("citizen does nothing\n");
+			if ((zombie - civil == 1) || (madong - zombie == 1)) {
+				if (zombie - civil == 1) {
+					printf("zombie attcks citizen\n");
+				}
+				else {
+					if (flag == 1) {
+						printf("zombie attcks madongseock\n");
+					}
+
+
+				}
+			}
+			else {
+				printf("zombie attcks nobody\n");
+
+			}
+			printf("....\n");
 		}
 		else if (madong_move == MOVE_STAY) {
 			aggro_madon--;
@@ -302,54 +320,55 @@ int main() {
 
 			}
 			printf("....\n");
-			printf("madongseokaction(0.rest, 1.provoke, 2. pull)>> ");
-			scanf_s("%d", &action_ma);
-			switch (action_ma)
-			{
-			case 0:
-				printf("madongseck rest...........\n");
+			
 
-				ma_stm++;
-				if (ma_stm > 5) {
-					ma_stm = 5;
-				}
-				aggro_dec(aggro_madon);
-				printf("madongseok: 7 (aggro : %d, stamina : %d)\n",aggro_madon, ma_stm);
+		}
+		printf("madongseokaction(0.rest, 1.provoke, 2. pull)>> ");
+		scanf_s("%d", &action_ma);
+		switch (action_ma)
+		{
+		case 0:
+			printf("madongseck rest...........\n");
 
-				break;
-			case 1:
-				aggro_madon = AGGRO_MAX;
-				aggro_civil = AGGRO_MIN;
-				printf("madongseok provoked zombie...!!!\n");
-				printf("madongseok: 7 (aggro : %d)\n", aggro_madon);
-				break;
-			case 2:
-				printf("madongseok pulled zombie...!!!\n");
-				if (r > p) {
-					printf("madongseokpulled zombie... Next turn, it can't move\n");
-					flag_pulled = 1;
-					aggro_madon += 2;
-					if (aggro_madon > 5) {
-						aggro_madon = 5;
-					}
-					ma_stm--;
-					printf("madongseok: 7 (aggro : %d --> %d, stamina : %d -- > %d)\n", aggro_madon-2, aggro_madon, ma_stm+1,ma_stm);
-				}
-				else {
-					aggro_madon += 2;
-					if (aggro_madon > 5) {
-						aggro_madon = 5;
-					}
-					ma_stm--;
-					flag_pulled = 0;
-					printf("madongseok failed to pull zombie\n");
-					printf("madongseok: 7 (aggro : %d, stamina : %d -- > %d)\n", aggro_madon, ma_stm + 1, ma_stm);
-
-				}
-			default:
-				break;
+			ma_stm++;
+			if (ma_stm > 5) {
+				ma_stm = 5;
 			}
+			aggro_dec(aggro_madon);
+			printf("madongseok: 7 (aggro : %d, stamina : %d)\n", aggro_madon, ma_stm);
 
+			break;
+		case 1:
+			aggro_madon = AGGRO_MAX;
+			aggro_civil = AGGRO_MIN;
+			printf("madongseok provoked zombie...!!!\n");
+			printf("madongseok: 7 (aggro : %d)\n", aggro_madon);
+			break;
+		case 2:
+			printf("madongseok pulled zombie...!!!\n");
+			if (r > p) {
+				printf("madongseokpulled zombie... Next turn, it can't move\n");
+				flag_pulled = 1;
+				aggro_madon += 2;
+				if (aggro_madon > 5) {
+					aggro_madon = 5;
+				}
+				ma_stm--;
+				printf("madongseok: 7 (aggro : %d --> %d, stamina : %d -- > %d)\n", aggro_madon - 2, aggro_madon, ma_stm + 1, ma_stm);
+			}
+			else {
+				aggro_madon += 2;
+				if (aggro_madon > 5) {
+					aggro_madon = 5;
+				}
+				ma_stm--;
+				flag_pulled = 0;
+				printf("madongseok failed to pull zombie\n");
+				printf("madongseok: 7 (aggro : %d, stamina : %d -- > %d)\n", aggro_madon, ma_stm + 1, ma_stm);
+
+			}
+		default:
+			break;
 		}
 
 
