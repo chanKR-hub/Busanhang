@@ -116,7 +116,7 @@ train_inter(int len, int civil, int zombie, int scene, int madong) { // 1턴 부터
 	}
 }
 
-aggro_dec(int aggro) {
+aggro_dec(int aggro) { // 범위 안에서 어그로 감소 시켜주는 함수 -- 0보다 작아지면 최솟값인 0으로 초기화
 	aggro--;
 	if (aggro < 0) {
 		aggro == 0;
@@ -176,6 +176,7 @@ int main() {
 	
 	int scene = 1; // 짝수 횟수에 좀비가 멈추기 위한 장면 수 
 	boolean flag = 0; // 처음에는 마동석이 좀비옆에있어서 그때 부터 체력을 깎으면 게임 너무 빨리 끝날 것 같아서, 좀비가 출발하면 이 flag변수를 TRUE로 만들어서 그 이후 부터 마동석에 근접하면 체력이 깎이게 만들었음.
+	boolean flag_pulled = 0;
 	while (1) {
 		int madong_move = -1; // 마동석의 이동에 쓰일 변수
 
@@ -189,13 +190,17 @@ int main() {
 			}
 		}
 		else {
-			if (scene % 2 != 0) {
+			if (scene % 2 != 0 && flag_pulled == 0) {
 				if ((madong - zombie) > 1 && (aggro_madon > aggro_civil)) {
 					zombie++;
 					aggro_civil--;
 					if (aggro_civil < 0) {
 						aggro_civil = 0;
 					}
+					if (madong - zombie == 1 && flag == 1) {
+						ma_stm--;
+					}
+
 				}
 				else {
 					zombie--;
@@ -215,7 +220,7 @@ int main() {
 		printf("\n");
 
 		// 시민과 좀비의 이동 결과
-		if (scene % 2 == 0) { // 짝수 번째 장면 (좀비가 못움직이는 장면)
+		if (scene % 2 == 0 || flag_pulled == 1) { // 짝수 번째 장면 (좀비가 못움직이는 장면)
 			if (r > p) {
 				printf("Citizen : %d -> %d (aggro : %d)\n", civil + 1, civil, aggro_civil);
 				printf("Zombie : Stay %d (can not move)\n", zombie );
@@ -225,7 +230,7 @@ int main() {
 				printf("Zombie : Stay %d (can not move)\n", zombie );
 			}
 		}
-		else { // 홀 수 번째 장면 (좀비가 움직일 수 없는 장면)
+		else { // 홀 수 번째 장면 (좀비가 움직일 수 있는 장면)
 			if (r > p) {
 				printf("Citizen : %d -> %d (aggro : %d)\n", civil + 1, civil, aggro_civil);
 				printf("Zombie : Stay %d \n", zombie );
@@ -280,20 +285,21 @@ int main() {
 
 			printf("madongseok: stay %d (aggro : %d, stamina : %d)\n", madong, aggro_madon, ma_stm);
 			printf("citizen does nothing\n");
-			if (!((zombie - civil == 1) || (madong - zombie == 1))) {
-				printf("zombie attcks nobody");
-			}
-			else {
+			if ((zombie - civil == 1) || (madong - zombie == 1)) {
 				if (zombie - civil == 1) {
-					printf("zombie attcks citizen");
+					printf("zombie attcks citizen\n");
 				}
 				else {
 					if (flag == 1) {
-						printf("zombie attcks madongseock");
+						printf("zombie attcks madongseock\n");
 					}
-					
+
 
 				}
+			}
+			else {
+				printf("zombie attcks nobody\n");
+
 			}
 			printf("....\n");
 			printf("madongseokaction(0.rest, 1.provoke, 2. pull)>> ");
@@ -302,9 +308,13 @@ int main() {
 			{
 			case 0:
 				printf("madongseck rest...........\n");
+
 				ma_stm++;
-				aggro_madon--;
-				printf("madongseok: 7 (aggro : %d --> %d, stamina : %d -- > %d)\n", aggro_madon + 1, aggro_madon, ma_stm - 1, ma_stm);
+				if (ma_stm > 5) {
+					ma_stm = 5;
+				}
+				aggro_dec(aggro_madon);
+				printf("madongseok: 7 (aggro : %d, stamina : %d)\n",aggro_madon, ma_stm);
 
 				break;
 			case 1:
@@ -317,19 +327,24 @@ int main() {
 				printf("madongseok pulled zombie...!!!\n");
 				if (r > p) {
 					printf("madongseokpulled zombie... Next turn, it can't move\n");
+					flag_pulled = 1;
 					aggro_madon += 2;
 					if (aggro_madon > 5) {
 						aggro_madon = 5;
 					}
 					ma_stm--;
-					printf("madongseok: 7 (aggro : %d --> %d, stamina : %d -- > %d)\n", aggro_madon+2, aggro_madon, ma_stm+1,ma_stm);
+					printf("madongseok: 7 (aggro : %d --> %d, stamina : %d -- > %d)\n", aggro_madon-2, aggro_madon, ma_stm+1,ma_stm);
 				}
 				else {
+					aggro_madon += 2;
 					if (aggro_madon > 5) {
 						aggro_madon = 5;
 					}
 					ma_stm--;
-					printf("madongseokfailed to pull zombie\n");
+					flag_pulled = 0;
+					printf("madongseok failed to pull zombie\n");
+					printf("madongseok: 7 (aggro : %d, stamina : %d -- > %d)\n", aggro_madon, ma_stm + 1, ma_stm);
+
 				}
 			default:
 				break;
