@@ -179,7 +179,7 @@ int main() {
 	
 	int scene = 1; // 짝수 횟수에 좀비가 멈추기 위한 장면 수 
 	boolean flag = 0; // 처음에는 마동석이 좀비옆에있어서 그때 부터 체력을 깎으면 게임 너무 빨리 끝날 것 같아서, 좀비가 출발하면 이 flag변수를 TRUE로 만들어서 그 이후 부터 마동석에 근접하면 체력이 깎이게 만들었음.
-	boolean flag_pulled = 0;
+	boolean flag_pulled = 0; // 마동석이 PULL에 성공하면 TRUE, 실패하면 FALSE 로 초기화 하여 TRUE이면 좀비 못움직임.
 	while (1) {
 		int madong_move = -1; // 마동석의 이동에 쓰일 변수
 
@@ -222,6 +222,8 @@ int main() {
 		train_ex(len);
 		printf("\n");
 
+
+		// 2-3 <이동>
 		// 시민과 좀비의 이동 결과
 		if (scene % 2 == 0 || flag_pulled == 1) { // 짝수 번째 장면 (좀비가 못움직이는 장면)
 			if (r > p) {
@@ -305,15 +307,15 @@ int main() {
 
 			printf("madongseok: stay %d (aggro : %d -- > %d, stamina : %d)\n", madong, aggro_madon+1,aggro_madon, ma_stm);
 			printf("citizen does nothing\n");
-			if ((zombie - civil == 1) || (madong - zombie == 1)) {
+			if ((zombie - civil == 1) || ((madong - zombie == 1)&&flag==1)) {
 				if (zombie - civil == 1) {
 					printf("zombie attcks citizen\n");
 				}
 				else {
-					if (flag == 1) {
-						printf("zombie attcks madongseock\n");
-						ma_stm--;
-					}
+					
+					printf("zombie attcks madongseock\n");
+					ma_stm--;
+					
 
 
 				}
@@ -327,11 +329,13 @@ int main() {
 			
 
 		}
+
+		//2-4 <행동>
 		printf("madongseokaction(0.rest, 1.provoke, 2. pull)>> ");
 		scanf_s("%d", &action_ma);
 		switch (action_ma)
 		{
-		case 0:
+		case 0: // rest ........
 			printf("madongseck rest...........\n");
 			stm_temp = ma_stm;
 			aggro_temp = aggro_madon;
@@ -347,14 +351,17 @@ int main() {
 			printf("madongseok: 7 (aggro : %d -- > %d, stamina : %d -- > %d)\n",aggro_temp, aggro_madon, stm_temp,ma_stm);
 
 			break;
-		case 1:
+
+		
+		case 1: // 1. revoke
 			aggro_temp = aggro_madon;
 			aggro_madon = AGGRO_MAX;
 			aggro_civil = AGGRO_MIN;
 			printf("madongseok provoked zombie...!!!\n");
 			printf("madongseok: 7 (aggro : %d --> %d)\n", aggro_temp,aggro_madon);
 			break;
-		case 2:
+
+		case 2: // 2. pull
 			printf("madongseok pulled zombie...!!!\n");
 			if (r > p) {
 				printf("madongseokpulled zombie... Next turn, it can't move\n");
