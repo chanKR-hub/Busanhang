@@ -171,7 +171,7 @@ int main() {
 	int aggro_civil = 1; // 시민 어그로
 	int aggro_madon = 1; // 마동석 어그로
 
-	int action_ma = 0; // 마동석 행동
+
 
 	int aggro_temp = 0;
 	int stm_temp = 0;
@@ -182,6 +182,7 @@ int main() {
 	boolean flag_pulled = 0; // 마동석이 PULL에 성공하면 TRUE, 실패하면 FALSE 로 초기화 하여 TRUE이면 좀비 못움직임.
 	while (1) {
 		int madong_move = -1; // 마동석의 이동에 쓰일 변수
+		int action_ma = -1; // 마동석 행동 
 
 		srand((unsigned int)time(NULL)); // 현재시간을 기준으로 계속 난수 생성
 		int r = rand() % 100 + 1;  // 1 ~ 100 까지의 난수 생성
